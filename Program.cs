@@ -2,12 +2,13 @@
 using TL;
 
 //YOUR SETTINGS START
-var yourPhone = "+79222222222";
-var chatName = "yourchat";
-var minDate = new DateTime(2022, 12, 5, 17, 00, 0);
-var maxDate = new DateTime(2022, 12, 6, 16, 00, 0);
+var yourPhone = "+79999999999";
+var chatName = "mychannel";
+var minDate = new DateTime(2024, 11, 16, 00, 00, 0);
+var maxDate = new DateTime(2024, 11, 17, 16, 00, 0);
 var apiId = 00000;
-var apiHash = "yourHash";
+var apiHash = "myapihash";
+var twofaSecret = "my2fakey";
 //YOUR SETTINGS STOP
 
 
@@ -82,7 +83,7 @@ async Task DoLogin(string loginInfo) // (add this method to your code)
         {
             case "verification_code": Console.Write("Code: "); loginInfo = Console.ReadLine(); break;
             case "name": loginInfo = "John Doe"; break;    // if sign-up is required (first/last_name)
-            case "password": loginInfo = "secret!"; break; // if user has enabled 2FA
+            case "password": loginInfo = twofaSecret; break; // if user has enabled 2FA
             default: loginInfo = null; break;
         }
     Console.WriteLine($"We are logged-in as {client.User} (id {client.User.id})");
