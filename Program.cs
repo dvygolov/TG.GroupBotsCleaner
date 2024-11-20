@@ -1,16 +1,22 @@
-﻿using System.Linq;
-using TL;
+﻿using TL;
 
-//YOUR SETTINGS START
-var yourPhone = "+79999999999";
-var chatName = "mychannel";
-var minDate = new DateTime(2024, 11, 16, 00, 00, 0);
-var maxDate = new DateTime(2024, 11, 17, 16, 00, 0);
-var apiId = 00000;
-var apiHash = "myapihash";
-var twofaSecret = "my2fakey";
-//YOUR SETTINGS STOP
+Console.WriteLine("Telegram Bots Cleaner v.2.0 by Yellow Web");
+Console.Write("Enter your phone number, for example +79222045502:");
+var yourPhone = Console.ReadLine()??"";
+Console.Write("Enter your chat/channel name without @, for example ohmyctr:");
+var chatName = Console.ReadLine();
+Console.Write("Enter your app id from https://my.telegram.org/apps:");
+var apiId = int.Parse(Console.ReadLine()??"-1");
+Console.Write("Enter your app hash from https://my.telegram.org/apps:");
+var apiHash = Console.ReadLine();
+Console.Write("Enter your 2FA key, if required. Otherwise just press Enter:");
+var twofaSecret = Console.ReadLine();
+Console.WriteLine("Enter start date and time to clear users in UTC0 timezone, for example 2024-11-22 22:00:00");
+var minDate = DateTime.ParseExact(Console.ReadLine()??"","yyyy-MM-dd hh:mm:ss",null);
+Console.WriteLine("Enter end date and time to clear users in UTC0 timezone, for example 2024-11-22 22:15:00");
+var maxDate = DateTime.ParseExact(Console.ReadLine()??"","yyyy-MM-dd hh:mm:ss",null);
 
+Console.WriteLine("Starting to work...");
 
 //Do not modify anything starting from here!
 //Supressing excessive logging
@@ -81,7 +87,7 @@ async Task DoLogin(string loginInfo) // (add this method to your code)
     while (client.User == null)
         switch (await client.Login(loginInfo)) // returns which config is needed to continue login
         {
-            case "verification_code": Console.Write("Code: "); loginInfo = Console.ReadLine(); break;
+            case "verification_code": Console.Write("Enter verification code from Telegram: "); loginInfo = Console.ReadLine(); break;
             case "name": loginInfo = "John Doe"; break;    // if sign-up is required (first/last_name)
             case "password": loginInfo = twofaSecret; break; // if user has enabled 2FA
             default: loginInfo = null; break;
