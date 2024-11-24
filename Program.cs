@@ -1,20 +1,39 @@
-﻿using TL;
-
-Console.WriteLine("Telegram Bots Cleaner v.2.0 by Yellow Web");
+﻿using System.Globalization;
+using TL;
+Console.WriteLine(@"                Telegram Bots Cleaner v2.0.1 ");
+Console.WriteLine(@"   _            __     __  _ _             __          __  _     ");
+Console.WriteLine(@"  | |           \ \   / / | | |            \ \        / / | |    ");
+Console.WriteLine(@"  | |__  _   _   \ \_/ /__| | | _____      _\ \  /\  / /__| |__  ");
+Console.WriteLine(@"  | '_ \| | | |   \   / _ \ | |/ _ \ \ /\ / /\ \/  \/ / _ \ '_ \ ");
+Console.WriteLine(@"  | |_) | |_| |    | |  __/ | | (_) \ V  V /  \  /\  /  __/ |_) |");
+Console.WriteLine(@"  |_.__/ \__, |    |_|\___|_|_|\___/ \_/\_/    \/  \/ \___|_.__/ ");
+Console.WriteLine(@"          __/ |                                                  ");
+Console.WriteLine(@"         |___/                  https://yellowweb.top            ");
+Console.WriteLine();
+Console.WriteLine("If you like this software, please, donate!");
+Console.WriteLine("USDT TRC20: TKeNEVndhPSKXuYmpEwF4fVtWUvfCnWmra");
+Console.WriteLine("Bitcoin: bc1qqv99jasckntqnk0pkjnrjtpwu0yurm0qd0gnqv");
+Console.WriteLine("Ethereum: 0xBC118D3FDE78eE393A154C29A4545c575506ad6B");
+Console.WriteLine();
+Console.WriteLine();
 Console.Write("Enter your phone number, for example +79222045502:");
-var yourPhone = Console.ReadLine()??"";
+var yourPhone = Console.ReadLine() ?? "";
 Console.Write("Enter your chat/channel name without @, for example ohmyctr:");
 var chatName = Console.ReadLine();
 Console.Write("Enter your app id from https://my.telegram.org/apps:");
-var apiId = int.Parse(Console.ReadLine()??"-1");
+var apiId = int.Parse(Console.ReadLine() ?? "-1");
 Console.Write("Enter your app hash from https://my.telegram.org/apps:");
 var apiHash = Console.ReadLine();
 Console.Write("Enter your 2FA key, if required. Otherwise just press Enter:");
 var twofaSecret = Console.ReadLine();
+
+string format = "yyyy-MM-dd HH:mm:ss";
 Console.WriteLine("Enter start date and time to clear users in UTC0 timezone, for example 2024-11-22 22:00:00");
-var minDate = DateTime.ParseExact(Console.ReadLine()??"","yyyy-MM-dd hh:mm:ss",null);
+var startDate = Console.ReadLine() ?? "";
+DateTime.TryParseExact(startDate, format, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out DateTime minDate);
 Console.WriteLine("Enter end date and time to clear users in UTC0 timezone, for example 2024-11-22 22:15:00");
-var maxDate = DateTime.ParseExact(Console.ReadLine()??"","yyyy-MM-dd hh:mm:ss",null);
+var endDate = Console.ReadLine() ?? "";
+DateTime.TryParseExact(endDate, format, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out DateTime maxDate);
 
 Console.WriteLine("Starting to work...");
 
@@ -25,6 +44,7 @@ using var client = new WTelegram.Client(apiId, apiHash);
 await DoLogin(yourPhone);
 
 //Gettings our chat
+Console.WriteLine("Getting ALL chats, please wait...");
 var chats = await client.Messages_GetAllChats();
 var chat = chats.chats.Values.Where(c => c is Channel).Cast<Channel>().FirstOrDefault(c => c.username == chatName);
 if (chat == null)
