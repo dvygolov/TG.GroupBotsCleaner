@@ -4,7 +4,7 @@
     {
         public static void Print()
         {
-            Console.WriteLine(@"                Telegram Bots Cleaner v2.2.0 ");
+            Console.WriteLine(@"                Telegram Bots Cleaner v2.3.0 ");
             Console.WriteLine(@"   _            __     __  _ _             __          __  _     ");
             Console.WriteLine(@"  | |           \ \   / / | | |            \ \        / / | |    ");
             Console.WriteLine(@"  | |__  _   _   \ \_/ /__| | | _____      _\ \  /\  / /__| |__  ");

@@ -80,7 +80,7 @@ async Task CleanAsync(WTelegram.Client client, string chatName, DateTime minDate
 
         Console.WriteLine($"Current MaxId: {maxId}");
         users = new HashSet<long>();
-        Console.WriteLine("Getting part of the log...");
+        Console.WriteLine("Getting part of the Recent Actions log...");
         Channels_AdminLogResults log;
         do
         {
@@ -93,9 +93,11 @@ async Task CleanAsync(WTelegram.Client client, string chatName, DateTime minDate
         }
         while (log.events.First().date >= minDate);
         File.WriteAllLines("users.txt", users.Select(u => u.ToString()).ToArray());
+        Console.WriteLine($"Found {users.Count} users in Recent Actions log.");
     }
 
     //Cleaning all users
+    var realRemoved = 0;
     while (users.Count > 0)
     {
         var firstUser = users.First();
@@ -119,8 +121,10 @@ async Task CleanAsync(WTelegram.Client client, string chatName, DateTime minDate
             var delRes = await client.DeleteChatUser(chat, participants.users[firstUser]);
         }
         users.Remove(firstUser);
+        realRemoved++;
         File.WriteAllLines("users.txt", users.Select(u => u.ToString()).ToArray());
     }
+    Console.WriteLine($"TOTAL NUMBER OF REMOVED USERS: {realRemoved}");
 }
 
 
